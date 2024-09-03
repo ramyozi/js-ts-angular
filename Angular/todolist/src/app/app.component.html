@@ -234,8 +234,9 @@
           <li *ngFor="let task of tasks">
             <h3>
               {{ task.name }}
-              <span *ngIf="task.done" style="color: green;">(Terminé)</span>
-              <span *ngIf="!task.done" style="color: red;">(À terminer)</span>
+              <span [ngClass]="{'text-success': task.done, 'text-danger': !task.done}">
+                ({{ task.done ? 'Terminé' : 'À terminer' }})
+              </span>
             </h3>
             <p *ngIf="task.comment">{{ task.comment }}</p>
             <button *ngIf="!task.done" (click)="onButtonValidate(task.id)" class="btn btn-success">
