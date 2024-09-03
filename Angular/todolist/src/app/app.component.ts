@@ -47,4 +47,13 @@ export class AppComponent {
       done: false,
     }
   ];
+  onButtonValidate(taskId: string): void {
+    this.tasks = this.tasks.map((task) => {
+      if (task.id === taskId) {
+        task.done = !task.done;
+      }
+      return task;
+    });
+  }
+
 }
