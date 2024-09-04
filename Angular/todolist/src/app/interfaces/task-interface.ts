@@ -3,4 +3,5 @@ export interface TaskInterface {
   name: string;
   done: boolean;
   comment?: string;
+  cost?: number;
 }

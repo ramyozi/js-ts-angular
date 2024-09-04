@@ -225,28 +225,9 @@
           <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
         </defs>
       </svg>
-      <h1>Hello, {{ title }}</h1>
-      <p>Les tâches qu'il te reste à faire :</p>
-
-      <section *ngIf="tasks.length > 0">
-        <h2>Les tâches qu'il te reste à faire :</h2>
-        <ul>
-          <li *ngFor="let task of tasks">
-            <h3>
-              <span [ngClass]="{'text-decoration-line-through': task.done}">
-                {{ task.name }}
-              </span>
-              <span [ngClass]="{'text-success': task.done, 'text-danger': !task.done}">
-                ({{ task.done ? 'Terminé' : 'À terminer' }})
-              </span>
-            </h3>
-            <p *ngIf="task.comment">{{ task.comment }}</p>
-            <button *ngIf="!task.done" (click)="onButtonValidate(task.id)" class="btn btn-success">
-              Valider
-            </button>
-          </li>
-        </ul>
-      </section>
+      <h1>{{ title | uppercase }}</h1>
+      <app-tasks-list [tasks]="tasks"></app-tasks-list>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </main>

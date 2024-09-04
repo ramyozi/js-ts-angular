@@ -1,0 +1,13 @@
+<h3 [ngClass]="{'text-decoration-line-through': task.done}">
+  {{ task.name | uppercase }}
+  <span [ngClass]="{'text-success': task.done, 'text-danger': !task.done}">
+    ({{ task.done ? 'Terminé' : 'À terminer' }})
+  </span>
+  <i
+    [ngClass]="{'fas fa-undo text-danger': task.done, 'fas fa-check-circle text-success': !task.done}"
+    (click)="toggleTaskStatus()"
+    style="cursor: pointer; margin-left: 10px;"
+  ></i>
+</h3>
+<p *ngIf="task.comment && !task.done">{{ task.comment }}</p>
+<p *ngIf="task.cost && !task.done">Coût: {{ task.cost | currency:'EUR':'symbol' }}</p>
