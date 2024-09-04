@@ -226,8 +226,13 @@
         </defs>
       </svg>
       <h1>{{ title | uppercase }}</h1>
-      <app-tasks-list></app-tasks-list>
-      <router-outlet></router-outlet>
+      <header style="display: flex; justify-content: space-between;">
+        <a routerLink="/" routerLinkActive="selected-menu">Home</a>
+        <a routerLink="/about" routerLinkActive="selected-menu">About</a>
+      </header>
+      <main class="main container">
+        <router-outlet></router-outlet>
+      </main>
     </div>
   </div>
 </main>

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TaskComponent} from "../task/task.component";
+import {TaskComponent} from "./task/task.component";
 import {CommonModule} from "@angular/common";
 import {TaskInterface} from "../interfaces/task-interface";
 import {TaskService} from "../services/Task-service";
