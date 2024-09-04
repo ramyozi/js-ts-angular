@@ -4,16 +4,18 @@ import {CommonModule} from "@angular/common";
 import {TaskInterface} from "../../interfaces/task-interface";
 import {TaskService} from "../../services/Task-service";
 import {Observable} from "rxjs";
+import {TaskCreateFormComponent} from "../../forms/create-task-form/create-task-form.component";
 
 @Component({
   selector: 'app-tasks-list',
   standalone: true,
-  imports: [CommonModule, TaskComponent],
+  imports: [CommonModule, TaskComponent, TaskCreateFormComponent],
   templateUrl: './tasks-list.component.html',
   styleUrl: './tasks-list.component.css'
 })
 export class TasksListComponent implements OnInit{
   tasks$!: Observable<TaskInterface[]>;
+  showCreateForm: boolean = false;
 
   constructor(private taskService: TaskService) {}
 
@@ -40,5 +42,14 @@ export class TasksListComponent implements OnInit{
   onTaskStatusChange(taskId: string) {
     // On demande au service
     this.taskService.toggleTaskStatus(taskId);
+  }
+
+  toggleCreateForm() {
+    this.showCreateForm = !this.showCreateForm;
+  }
+
+  onTaskCreated(newTask: TaskInterface) {
+    this.taskService.addTask(newTask);
+    this.showCreateForm = false;
   }
 }

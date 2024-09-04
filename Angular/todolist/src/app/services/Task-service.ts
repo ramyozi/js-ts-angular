@@ -60,4 +60,9 @@ export class TaskService {
     return this.tasks$;
   }
 
+  addTask(newTask: TaskInterface): void {
+    const tasks = this.tasksSubject.value;
+    tasks.push({ ...newTask, id: (tasks.length + 1).toString() });
+    this.tasksSubject.next([...tasks]);
+  }
 }

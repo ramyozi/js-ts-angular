@@ -7,3 +7,12 @@
   </ul>
 </section>
 <p *ngIf="(tasks$ | async)?.length === 0">Aucune tâche disponible.</p>
+
+<button (click)="toggleCreateForm()" class="btn btn-primary">
+  {{ showCreateForm ? 'Annuler' : 'Ajouter une tâche' }}
+</button>
+
+<section *ngIf="showCreateForm">
+  <digi-create-task-form (taskCreated)="onTaskCreated($event)"></digi-create-task-form>
+</section>
+
