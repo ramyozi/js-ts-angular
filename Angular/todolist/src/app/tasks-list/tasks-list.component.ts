@@ -12,15 +12,25 @@ import {TaskService} from "../services/Task-service";
   styleUrl: './tasks-list.component.css'
 })
 export class TasksListComponent implements OnInit{
-  @Input() tasks: TaskInterface[] = [];
+  @Input() tasks!: TaskInterface[];
 
   constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    this.tasks = this.taskService.getTasks();
+    // chargement des tâches
+    this.taskService.loadTasksFromJson().subscribe(() => {
+      console.log('Tâches chargées avec succès');
+    });
+
+    // On s'abonne à l'observable 'tasks$' pour écouter les changements de tasks
+    this.taskService.tasks$.subscribe((tasks) => {
+      this.tasks = tasks; // màj
+    });
   }
 
-  getTasks(): TaskInterface[] {
-    return this.taskService.getTasks();
+  onTaskStatusChange(taskId: string) {
+
+    // On demande au service
+    this.taskService.toggleTaskStatus(taskId);
   }
 }

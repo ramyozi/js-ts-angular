@@ -2,42 +2,46 @@
 import { Injectable } from '@angular/core';
 import {TaskInterface} from "../interfaces/task-interface";
 import {HttpClient} from "@angular/common/http";
+import {BehaviorSubject, Observable, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: TaskInterface[] = [];
+  private tasksSubject = new BehaviorSubject<TaskInterface[]>([]);
+
+  // j'expose la liste des tâches comme un observable
+  tasks$: Observable<TaskInterface[]> = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loadTasksFromJson();
   }
 
-  private loadTasksFromJson(): void {
-    this.http.get<TaskInterface[]>('assets/data.json').subscribe(
-      (data) => {
-        this.tasks = data;
-        console.log('Tasks loaded from JSON:', this.tasks);
-      },
-      (error) => {
-        console.error('Error loading tasks from JSON:', error);
-      }
+
+  loadTasksFromJson(): Observable<TaskInterface[]> {
+    return this.http.get<TaskInterface[]>('assets/data.json').pipe(
+      tap((data) => {
+          this.tasksSubject.next(data); // Met à jour le BehaviorSubject
+        },
+        (error) => {
+          console.error('Erreur lors du chargement des tâches depuis JSON:', error);
+        })
     );
   }
 
-  subscribeTasks(tasks: TaskInterface[]) {
-    this.tasks = tasks;
-  }
 
   toggleTaskStatus(taskId: string) {
-    const task = this.tasks.find((t) => t.id === taskId);
+    const currentTasks = this.tasksSubject.value;
+    const task = currentTasks.find((t) => t.id === taskId);
     if (task) {
       task.done = !task.done;
+
+      // on émet la nouvelle liste de tâches pour que tout le monde soit à jour
+      this.tasksSubject.next([...currentTasks]);
     }
   }
 
   getTasks(): TaskInterface[] {
-    return this.tasks;
+    return this.tasksSubject.value;
   }
 
 }
