@@ -1,9 +1,9 @@
-<section *ngIf="tasks.length > 0">
-  <h2>Liste des tâches</h2>
+<section *ngIf="(tasks$ | async) as tasks">
+<h2>Liste des tâches</h2>
   <ul>
     <li *ngFor="let task of tasks">
       <app-task [task]="task" (statusChange)="onTaskStatusChange($event)"></app-task>
     </li>
   </ul>
 </section>
-<p *ngIf="tasks.length === 0">Aucune tâche disponible.</p>
+<p *ngIf="(tasks$ | async)?.length === 0">Aucune tâche disponible.</p>

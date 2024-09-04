@@ -8,12 +8,25 @@ import {BehaviorSubject, Observable, tap} from "rxjs";
   providedIn: 'root'
 })
 export class TaskService {
-  private tasksSubject = new BehaviorSubject<TaskInterface[]>([]);
-
-  // j'expose la liste des tâches comme un observable
+  public tasksSubject = new BehaviorSubject<TaskInterface[]>([]);
   tasks$: Observable<TaskInterface[]> = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
+  }
+
+  loadTasksFromServer(): void {
+    const url = 'http://localhost:3000/tasks';
+    const params = { status: 'PENDING' };
+    console.log('Loading tasks from server:', url, params);
+
+    this.http.get<TaskInterface[]>(url, { params }).pipe(
+      tap((tasksFromServer) => {
+        console.log('Tasks loaded from server:', tasksFromServer);
+        this.tasksSubject.next(tasksFromServer); // Update the tasks state
+      })
+    ).subscribe({
+      error: (error) => console.error('Error loading tasks from server:', error)
+    });
   }
 
 
@@ -31,17 +44,20 @@ export class TaskService {
 
   toggleTaskStatus(taskId: string) {
     const currentTasks = this.tasksSubject.value;
-    const task = currentTasks.find((t) => t.id === taskId);
-    if (task) {
-      task.done = !task.done;
+    const taskIndex = currentTasks.findIndex((t) => t.id.toString() === taskId);
 
-      // on émet la nouvelle liste de tâches pour que tout le monde soit à jour
+    if (taskIndex !== -1) {
+      currentTasks[taskIndex].done = !currentTasks[taskIndex].done;
       this.tasksSubject.next([...currentTasks]);
+      console.log('Tâche mise à jour:', currentTasks[taskIndex]);
+    } else {
+      console.error(`Tâche avec l'ID ${taskId} non trouvée`);
     }
+
   }
 
-  getTasks(): TaskInterface[] {
-    return this.tasksSubject.value;
+  getTasks(): Observable<TaskInterface[]> {
+    return this.tasks$;
   }
 
 }

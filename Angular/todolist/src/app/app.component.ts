@@ -19,6 +19,5 @@ export class AppComponent {
   tasks: TaskInterface[] = [];
 
   constructor(private taskService: TaskService) {
-    this.tasks = this.taskService.getTasks();
   }
 }
