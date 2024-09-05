@@ -80,8 +80,16 @@ export class TasksListComponent implements OnInit{
         console.log('Task successfully added:', addedTask);
         this.showCreateForm = false;
       },
-      error: (error) => console.error('Erreur lors de l\'ajout de la tâche :', error)
+      error: (error) => {
+        console.error('Erreur lors de l\'ajout de la tâche :', error);
+        tasks.pop();
+      }
     });
+  }
+
+  onTaskDeleted(taskId: string) {
+    const updatedTasks = this.tasksSubject.value.filter(task => task.id !== taskId);
+    this.tasksSubject.next(updatedTasks);
   }
 
   openUpdateModal(task: TaskInterface) {
