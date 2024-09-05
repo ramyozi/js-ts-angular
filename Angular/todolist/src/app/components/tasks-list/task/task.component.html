@@ -1,15 +1,48 @@
-<h3 >
-  <span [ngClass]="{'text-decoration-line-through': task.done}">
-    {{ task.name | uppercase }}
-  </span>
-  <span [ngClass]="{'text-success': task.done, 'text-danger': !task.done}" [ngStyle]="{'font-size': '0.8em', 'margin-left': '10px'}">
-    ({{ task.done ? 'Terminé' : 'À terminer' }})
-  </span>
-  <i
-    [ngClass]="{'fa fa-undo text-danger': task.done, 'fas fa-check-circle text-success': !task.done}"
-    (click)="toggleTaskStatus()"
-    style="cursor: pointer; margin-left: 10px;"
-  ></i>
-</h3>
-<p *ngIf="task.comment && !task.done">{{ task.comment }}</p>
-<p *ngIf="task.cost && !task.done">Coût: {{ task.cost | currency:'EUR':'symbol' }}</p>
+<div class="task-card">
+  <!-- Tâche - Mode d'Affichage -->
+  <div *ngIf="!isUpdating" class="task-details">
+    <h3 class="task-title">
+      <span [ngClass]="{'text-decoration-line-through': task.done}">
+        {{ task.name | uppercase }}
+      </span>
+      <span [ngClass]="{'text-success': task.done, 'text-danger': !task.done}" class="task-status">
+        ({{ task.done ? 'Terminé' : 'À terminer' }})
+      </span>
+      <i
+        [ngClass]="{'fa fa-undo text-danger': task.done, 'fas fa-check-circle text-success': !task.done}"
+        (click)="toggleTaskStatus()"
+        class="status-icon"
+      ></i>
+      <button class="btn btn-outline-primary btn-sm" (click)="toggleUpdateForm()">Modifier</button>
+    </h3>
+    <div class="task-info">
+      <p *ngIf="task.comment && !task.done" class="task-comment">Commentaire: {{ task.comment }}</p>
+      <p *ngIf="task.cost && !task.done" class="task-cost">Coût: {{ task.cost | currency:'EUR':'symbol' }}</p>
+    </div>
+  </div>
+
+  <!-- Tâche - Mode de Mise à Jour -->
+  <form *ngIf="isUpdating" [formGroup]="updateForm" (ngSubmit)="onSubmitUpdate()" class="update-form">
+    <div class="form-group">
+      <label for="name">Nom de la tâche</label>
+      <input type="text" id="name" formControlName="name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="comment">Commentaire</label>
+      <input type="text" id="comment" formControlName="comment" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="cost">Coût</label>
+      <input type="number" id="cost" formControlName="cost" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" formControlName="done"> Terminé
+      </label>
+    </div>
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-success" [disabled]="!updateForm.valid">Mettre à jour</button>
+      <button type="button" class="btn btn-secondary" (click)="toggleUpdateForm()">Annuler</button>
+    </div>
+  </form>
+</div>
