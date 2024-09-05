@@ -39,21 +39,21 @@
     {
       "id": "4bbe",
       "name": "test1",
-      "done": false,
+      "done": true,
       "comment": "",
       "cost": ""
     },
     {
       "id": "4d3a",
       "name": "banan",
-      "done": false,
+      "done": true,
       "comment": "a faire avant 23h",
       "cost": ""
     },
     {
       "id": "faae",
       "name": "local1",
-      "done": false,
+      "done": true,
       "comment": "",
       "cost": ""
     }

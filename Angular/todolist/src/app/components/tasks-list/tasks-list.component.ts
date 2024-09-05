@@ -46,16 +46,23 @@ export class TasksListComponent implements OnInit{
   }
 
   onTaskStatusChange(taskId: string) {
-    // on recupère les tâches actuelles
     const currentTasks = this.tasksSubject.value;
 
-    // je souscris à l'observable retourné par toggleTaskStatus
-    this.taskService.toggleTaskStatus(taskId, currentTasks).subscribe({
-      next: (updatedTasks) => {
-        this.tasksSubject.next(updatedTasks); // màj
-      },
-      error: (error) => console.error('Error toggling task status:', error)
-    });  }
+    // je trouve l'index de la tâche à modifier
+    const taskIndex = currentTasks.findIndex(t => t.id === taskId);
+    if (taskIndex !== -1) {
+      const updatedTask = { ...currentTasks[taskIndex], done: !currentTasks[taskIndex].done };
+
+      // le patch de la tâche
+      this.taskService.patchTask(taskId, { done: updatedTask.done }).subscribe({
+        next: () => {
+          currentTasks[taskIndex] = updatedTask;
+          this.tasksSubject.next([...currentTasks]);
+        },
+        error: (error) => console.error('Error updating task status:', error)
+      });
+    }
+  }
 
   toggleCreateForm() {
     this.showCreateForm = !this.showCreateForm;
