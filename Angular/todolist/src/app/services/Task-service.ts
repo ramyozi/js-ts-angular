@@ -61,8 +61,17 @@ export class TaskService {
   }
 
   addTask(newTask: TaskInterface): void {
-    const tasks = this.tasksSubject.value;
-    tasks.push({ ...newTask, id: (tasks.length + 1).toString() });
-    this.tasksSubject.next([...tasks]);
+    const url = 'http://localhost:3000/tasks';
+    this.http.post<TaskInterface>(url, newTask).pipe(
+      tap((addedTask) => {
+        const tasks = this.tasksSubject.value;
+        tasks.push(addedTask);
+        this.tasksSubject.next([...tasks]);
+        console.log('Nouvelle tâche ajoutée :', addedTask);
+      })
+    )
+      .subscribe({
+      error: (error) => console.error('Erreur lors de l\'ajout de la tâche :', error)
+    });
   }
 }

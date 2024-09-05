@@ -28,6 +28,13 @@
       "id": "5",
       "name": "Lire un livre",
       "done": false
+    },
+    {
+      "id": "c902",
+      "name": "Partir a Disneyland",
+      "done": false,
+      "comment": " avec la famille",
+      "cost": 642
     }
   ]
 }
