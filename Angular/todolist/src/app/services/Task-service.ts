@@ -49,4 +49,13 @@ export class TaskService {
       })
     );
   }
+
+  deleteTask(taskId: string): Observable<void> {
+    const url = `http://localhost:3000/tasks/${taskId}`;
+    return this.http.delete<void>(url).pipe(
+      tap(() => {
+        console.log('Task deleted:', taskId);
+      })
+    );
+  }
 }

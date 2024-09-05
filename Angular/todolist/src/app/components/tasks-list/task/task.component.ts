@@ -14,6 +14,7 @@ import {TaskService} from "../../../services/Task-service";
 export class TaskComponent implements OnInit{
   @Input() task!: TaskInterface;
   @Output() statusChange = new EventEmitter<string>();
+  @Output() deleteTask = new EventEmitter<string>();
   updateForm!: FormGroup;
   isUpdating: boolean = false;
 
@@ -49,4 +50,14 @@ export class TaskComponent implements OnInit{
     }
   }
 
+  onDeleteTask() {
+    if (confirm('Etes-vous sûr de vouloir supprimer cette tâche ?')) {
+      this.taskService.deleteTask(this.task.id).subscribe({
+        next: () => {
+          this.deleteTask.emit(this.task.id);  // Emit the delete event to the parent
+        },
+        error: (error) => console.error('Erreur lors de la suppression de la tâche :', error)
+      });
+    }
+  }
 }

@@ -5,7 +5,7 @@
       "name": "Faire les courses",
       "done": false,
       "comment": "Je dois acheter du pain, du lait et des oeufs pour le petit déjeuner.",
-      "cost": 24
+      "cost": 243
     },
     {
       "id": "2",
@@ -37,13 +37,6 @@
       "cost": 642
     },
     {
-      "id": "4bbe",
-      "name": "test1",
-      "done": true,
-      "comment": "",
-      "cost": ""
-    },
-    {
       "id": "4d3a",
       "name": "banan",
       "done": true,
@@ -56,27 +49,6 @@
       "done": true,
       "comment": "",
       "cost": ""
-    },
-    {
-      "id": "bce1",
-      "name": "dzd",
-      "done": false,
-      "comment": "dqzd",
-      "cost": ""
-    },
-    {
-      "id": "jq2aak4io",
-      "name": "haha",
-      "done": false,
-      "comment": " avec la famille haha",
-      "cost": 23524
-    },
-    {
-      "id": "hwexvdfu7",
-      "name": "aerrr",
-      "done": false,
-      "comment": "a faire avant 23h",
-      "cost": 33
     }
   ]
 }
