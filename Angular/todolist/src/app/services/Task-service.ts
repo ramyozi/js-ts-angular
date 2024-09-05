@@ -2,76 +2,63 @@
 import { Injectable } from '@angular/core';
 import {TaskInterface} from "../interfaces/task-interface";
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable, tap} from "rxjs";
+import {Observable, of, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  public tasksSubject = new BehaviorSubject<TaskInterface[]>([]);
-  tasks$: Observable<TaskInterface[]> = this.tasksSubject.asObservable();
 
   constructor(private http: HttpClient) {
   }
 
-  loadTasksFromServer(): void {
+  loadTasksFromServer(): Observable<TaskInterface[]> {
     const url = 'http://localhost:3000/tasks';
     const params = { status: 'PENDING' };
     console.log('Loading tasks from server:', url, params);
 
-    this.http.get<TaskInterface[]>(url, { params }).pipe(
+    return this.http.get<TaskInterface[]>(url, { params }).pipe(
       tap((tasksFromServer) => {
         console.log('Tasks loaded from server:', tasksFromServer);
-        this.tasksSubject.next(tasksFromServer); // Update the tasks state
       })
-    ).subscribe({
-      error: (error) => console.error('Error loading tasks from server:', error)
-    });
+    );
   }
-
 
   loadTasksFromJson(): Observable<TaskInterface[]> {
     return this.http.get<TaskInterface[]>('assets/data.json').pipe(
       tap((data) => {
-          this.tasksSubject.next(data); // Met à jour le BehaviorSubject
-        },
-        (error) => {
-          console.error('Erreur lors du chargement des tâches depuis JSON:', error);
-        })
+        console.log('Tasks loaded from JSON:', data);
+      })
     );
   }
 
-
-  toggleTaskStatus(taskId: string) {
-    const currentTasks = this.tasksSubject.value;
+  toggleTaskStatus(taskId: string, currentTasks: TaskInterface[]): Observable<TaskInterface[]> {
     const taskIndex = currentTasks.findIndex((t) => t.id.toString() === taskId);
 
-    if (taskIndex !== -1) {
-      currentTasks[taskIndex].done = !currentTasks[taskIndex].done;
-      this.tasksSubject.next([...currentTasks]);
-      console.log('Tâche mise à jour:', currentTasks[taskIndex]);
-    } else {
+    if (taskIndex === -1) {
       console.error(`Tâche avec l'ID ${taskId} non trouvée`);
+      return throwError(() => new Error(`Tâche avec l'ID ${taskId} non trouvée`));
     }
 
-  }
+    currentTasks[taskIndex].done = !currentTasks[taskIndex].done; // je change le statut de la tâche
+    console.log('Tâche mise à jour:', currentTasks[taskIndex]);
 
-  getTasks(): Observable<TaskInterface[]> {
-    return this.tasks$;
-  }
+    /*
+        On utilise `of` ici pour créer un observable qui balance direct la
+      liste mise à jour des tâches.
 
-  addTask(newTask: TaskInterface): void {
+      ressources: 
+      https://stackoverflow.com/questions/47889210/why-we-should-use-rxjs-of-function
+      https://rxjs.dev/api/index/function/of
+      */
+    return of([...currentTasks]);
+  }
+  addTask(newTask: TaskInterface): Observable<TaskInterface> {
     const url = 'http://localhost:3000/tasks';
-    this.http.post<TaskInterface>(url, newTask).pipe(
+    return this.http.post<TaskInterface>(url, newTask).pipe(
       tap((addedTask) => {
-        const tasks = this.tasksSubject.value;
-        tasks.push(addedTask);
-        this.tasksSubject.next([...tasks]);
         console.log('Nouvelle tâche ajoutée :', addedTask);
       })
-    )
-      .subscribe({
-      error: (error) => console.error('Erreur lors de l\'ajout de la tâche :', error)
-    });
+    );
   }
 }
