@@ -17,6 +17,7 @@ export class TasksListComponent implements OnInit{
   tasks$!: Observable<TaskInterface[]>;
   private tasksSubject = new BehaviorSubject<TaskInterface[]>([]);
   showCreateForm: boolean = false;
+  selectedTask!: TaskInterface | null;
 
   constructor(private taskService: TaskService) {}
 
@@ -69,16 +70,25 @@ export class TasksListComponent implements OnInit{
   }
 
   onTaskCreated(newTask: TaskInterface) {
+    newTask.id = Math.random().toString(36).substr(2, 9);
+    const tasks = this.tasksSubject.value;
+    tasks.push(newTask);
     this.taskService.addTask(newTask).subscribe({
       next: (addedTask) => {
-        // màj de la liste des tâches
-        const tasks = this.tasksSubject.value;
-        tasks.push(addedTask);
-        this.tasksSubject.next([...tasks]); // faire une copie du tableau
+        // màj l'id de la tâche ajoutée
+        newTask.id = addedTask.id;
         console.log('Task successfully added:', addedTask);
         this.showCreateForm = false;
       },
       error: (error) => console.error('Erreur lors de l\'ajout de la tâche :', error)
     });
+  }
+
+  openUpdateModal(task: TaskInterface) {
+    this.selectedTask = task;
+  }
+
+  closeUpdateModal() {
+    this.selectedTask = null;
   }
 }
