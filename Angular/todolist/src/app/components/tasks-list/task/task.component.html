@@ -6,7 +6,7 @@
     ({{ task.done ? 'Terminé' : 'À terminer' }})
   </span>
   <i
-    [ngClass]="{'fas fa-undo text-danger': task.done, 'fas fa-check-circle text-success': !task.done}"
+    [ngClass]="{'fa fa-undo text-danger': task.done, 'fas fa-check-circle text-success': !task.done}"
     (click)="toggleTaskStatus()"
     style="cursor: pointer; margin-left: 10px;"
   ></i>
