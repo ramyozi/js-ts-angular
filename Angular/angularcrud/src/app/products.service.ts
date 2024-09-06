@@ -39,4 +39,9 @@ export class ProductsService {
       partialProduct
     );
   }
+
+  deleteProduct(id: string): Observable<ProductInterface> {
+    console.log(`Dans deleteProduct de ProductsService`);
+    return this.http.delete<ProductInterface>(`${ProductsService.url}/${id}`);
+  }
 }

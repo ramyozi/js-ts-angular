@@ -1,12 +1,12 @@
 <div class="row" *ngIf="product">
   <div class="col-sm-12 mt-4">
-    <form [formGroup]="productForm" (ngSubmit)="register()">
-      <div class="row mb-3">
-        <div class="col-sm-2">
-          <label class="input-group-text">Nom : </label>
+    <form [formGroup]="productForm" (ngSubmit)="register()" class="p-3">
+      <div class="row mb-3 align-items-center">
+        <div class="col-sm-3">
+          <label class="form-label mb-0">Nom :</label>
         </div>
-        <div class="col-sm-10">
-          <input formControlName="name" class="form-control w-50" />
+        <div class="col-sm-9">
+          <input formControlName="name" class="form-control" placeholder="Nom du produit" />
           <div
             *ngIf="
               (productForm.get('name')?.invalid &&
@@ -14,10 +14,11 @@
                   productForm.get('name')?.dirty)) ||
               (isSubmitted && productForm.get('name')?.invalid)
             "
+            class="mt-1"
           >
             <div
               *ngIf="productForm.get('name')?.errors?.['required']"
-              class="alert alert-danger w-50"
+              class="alert alert-danger p-2"
             >
               Nom de produit requis
             </div>
@@ -25,33 +26,63 @@
         </div>
       </div>
 
-      <div class="row mb-3">
-        <div class="col-sm-2 col-form-label">
-          <label class="input-group-text">Description : </label>
+      <div class="row mb-3 align-items-center">
+        <div class="col-sm-3">
+          <label class="form-label mb-0">Description :</label>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-9">
           <textarea
             formControlName="description"
-            class="form-control w-50"
+            class="form-control"
+            rows="3"
+            placeholder="Description du produit"
           ></textarea>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-sm-2">
-          <label class="input-group-text">Prix : </label>
+
+      <div class="row mb-3 align-items-center">
+        <div class="col-sm-3">
+          <label class="form-label mb-0">Prix :</label>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-9">
           <input
             formControlName="price"
             class="form-control w-auto"
             type="number"
+            min="0.01"
           />
+          <div
+            *ngIf="
+              (productForm.get('price')?.invalid &&
+                (productForm.get('price')?.touched ||
+                  productForm.get('price')?.dirty)) ||
+              (isSubmitted && productForm.get('price')?.invalid)"
+            class="mt-1"
+          >
+            <div
+              *ngIf="productForm.get('price')?.errors?.['required']"
+              class="alert alert-danger w-50"
+            >
+              Prix du produit requis
+            </div>
+            <div
+              *ngIf="productForm.get('price')?.errors?.['min']"
+              class="alert alert-danger w-50"
+            >
+              Prix du produit doit être supérieur à 0
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="row">
-        <div class="col-sm-2">
-          <button type="submit" class="btn btn-success w-100">
-            Modifier le produit
+        <div class="col-sm-12 text-end">
+          <button
+            type="submit"
+            class="btn btn-success w-100"
+            [disabled]="productForm.pristine || !productForm.valid"
+          >
+          Modifier le produit
           </button>
         </div>
       </div>

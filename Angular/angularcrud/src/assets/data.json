@@ -1,0 +1,46 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Vélo VTT RockRider",
+      "description": "Presque neuf commen neuf",
+      "price": 123
+    },
+    {
+      "id": "tpm",
+      "name": "Produit ba4ny",
+      "description": "Description du produit kbxsao",
+      "price": 41.27648734329272
+    },
+    {
+      "id": "tpm",
+      "name": "Produit ekukyc",
+      "description": "Description du produit edfug9",
+      "price": 32.44644747697465
+    },
+    {
+      "id": "1725622095822",
+      "name": "Produit 4l68zn",
+      "description": "Description du produit 4l68zn",
+      "price": 43.16432271587076
+    },
+    {
+      "id": "1725622484155",
+      "name": "Produit este7j",
+      "description": "Description du produit este7j",
+      "price": 21.93805385002854
+    },
+    {
+      "id": "ed23",
+      "name": "tomates",
+      "description": "",
+      "price": 2.36
+    },
+    {
+      "id": "1725623059799",
+      "name": "Produit oqpzld",
+      "description": "Description du produit oqpzld",
+      "price": 75.12527549908685
+    }
+  ]
+}
