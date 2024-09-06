@@ -6,3 +6,5 @@ export interface ProductInterface {
 }
 
 export interface NewProductInterface extends Omit<ProductInterface, 'id'> {}
+export interface PatchProductInterface extends Partial<NewProductInterface> {}
+
