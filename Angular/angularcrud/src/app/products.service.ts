@@ -18,4 +18,9 @@ export class ProductsService {
     console.log(`Dans addProduct de ProductsService`, product);
     return this.http.post<ProductInterface>(ProductsService.url, product);
   }
+
+  loadProducts(): Observable<ProductInterface[]> {
+    console.log(`Dans loadProduct de ProductsService`);
+    return this.http.get<ProductInterface[]>(ProductsService.url);
+  }
 }
