@@ -37,7 +37,7 @@ npm install -g json-server
    ```bash
    git clone https://github.com/ramyozi/js-ts-angular/tree/tp-angular-crud
    git checkout tp-angular-crud
-   cd angularcrud
+   cd Angular/angularcrud
     ```
 2. **Installez les dépendances :**
    exécutez la commande
