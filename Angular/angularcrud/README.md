@@ -107,3 +107,11 @@ Le projet utilise les `Reactive Forms` d'Angular pour la gestion des formulaires
 
 -   Les champs du formulaire, tels que `Nom` et `Prix`, utilisent des validations intégrées comme `Validators.required` et `Validators.min`.
 -   Le bouton de soumission du formulaire est désactivé si les données du formulaire sont invalides ou n'ont pas été modifiées.
+
+### 4\. **Gestion des Erreurs de Navigation avec le Composant "Not Found"**
+
+L'application inclut un composant personnalisé `NotFoundComponent` pour gérer les erreurs de navigation. Ce composant s'affiche lorsque l'utilisateur tente d'accéder à une route qui n'existe pas. Voici les caractéristiques de ce composant :
+
+-   **Affichage d'un Message Clair** : Lorsqu'un utilisateur accède à une page qui n'existe pas, le composant affiche un message d'erreur "404 - Page Not Found" pour indiquer que la ressource recherchée est introuvable.
+
+-   **Bouton de Redirection** : Le composant comprend un bouton qui permet à l'utilisateur de retourner rapidement à la liste des produits, améliorant ainsi l'expérience utilisateur en fournissant une navigation facile vers une section valide de l'application.
