@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:angularcrud": "node dist/angularcrud/server/server.mjs"
+    "serve:ssr:angularcrud": "node dist/angularcrud/server/server.mjs",
+    "json-server": "json-server --watch src/assets/data.json"
   },
   "private": true,
   "dependencies": {
