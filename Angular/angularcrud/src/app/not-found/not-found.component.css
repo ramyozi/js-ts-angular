@@ -1,0 +1,13 @@
+.container {
+  margin-top: 100px;
+}
+
+.display-4 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.lead {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
